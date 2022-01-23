@@ -3,3 +3,5 @@
 pw_dump.txt
 wifi_dump.txt
 __pycache__/lists.cpython-39.pyc
+fonts.txt
+pyfiglettest.py

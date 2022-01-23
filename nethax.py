@@ -11,12 +11,12 @@
 
 
 # script information
-pName = "netHax"
+pName = "NetHax"
 pDescription = "Nethacking Toolbox"
 pAuthor = "DaBlincx"
 pSource = "https://www.github.com/DaBlincx/nethax"
 pVersion = 1.4
-debugMode = False
+debugMode = True
 
 
 
@@ -89,15 +89,15 @@ def mainMenu():
     for i in range(250):
         print()
     # trying to create banner using pyfiglet
-    try: banner = pyfiglet.figlet_format(f"  {pName}  ",font="banner3-D")
+    try: banner = pyfiglet.figlet_format(f"  {pName}  ",font="sansb")
     except: importError()
     con.print(":"*75,style="bold green")
     con.print(banner+":"*75+"\n",style="bold green")
     # printing description
-    con.print(Panel(f"\n{pDescription}\n",style="bold green"))
+    con.print(Panel(f"\n   {pDescription}\n",style="bold green"))
     print()
     # select what tool you want to use
-    con.print(Panel("1. Web App Hacking\n\n2. Phishing Attack\n\n3. MITM Attack\n\n4. WIFI Hacking\n\n5. Info\n\n6. Exit Program"),style="bold green")
+    con.print(Panel("\n   1. Web App Hacking\n   2. Phishing Attack\n   3. MITM Attack\n   4. WIFI Hacking\n   5. Settings\n   6. Exit Program\n"),style="bold green")
 
     answer = IntPrompt.ask("Which one do you pick? ",choices=['1','2','3','4','5','6'])
 
@@ -111,7 +111,7 @@ def mainMenu():
     if answer == 4:
         WiFi()
     if answer == 5:
-        showInfo()
+        settings()
     if answer == 6:
         exitProgram()
 
@@ -192,7 +192,7 @@ def getWifis():
 
     # option to change current platform in debug mode 
     # if your actual platform is not supported, a wifi error will be generated
-    if debugMode == True:
+    if debugMode:
         print("Your current plattform is " + platform + "\nChange it? ")
         newplatform = Prompt.ask("Linux / MacOS / Windows\nlinux / darwin / win32",choices=['linux','darwin','win32'])
 
@@ -310,7 +310,8 @@ def WiFi():
 
         if crackmethod == 1:
             # searches pwlist in lists.py for the randomised password
-            netpwd = random.choice(pwlist)
+            netpwdint = random.randint(1,len(pwlist))
+            netpwd = pwlist[netpwdint-1]
             #if debugMode:
             #    netpwd = repselfnetpwd()
             print("\n")
@@ -322,7 +323,11 @@ def WiFi():
                 tryed += 1
                 # couldn't get the progress bar with changing variables to work
                 # so its just printing everything
-                print(f"{tryed}/{len(pwlist)} | Trying {pwlist[i]}")
+                if debugMode:
+                    debugPwLeak = f"Password is '{netpwd}' at positon {netpwdint} | "
+                if not debugMode:
+                    debugPwLeak = ""
+                print(f"{tryed}/{len(pwlist)} | {debugPwLeak}Trying {pwlist[i]}")
                 if pwlist[i] == netpwd and netpwd != "nopasswordfound_______free":
                     wfend = True
                     break
@@ -365,12 +370,20 @@ def WiFi():
     else:
         wifiError()
 
+def setReq():
+    # back to main menu or not
+    print()
+    mmnue = Prompt.ask("Back to settings (s) or main menu (m)",choices=['s','m'])
+    if mmnue == "s":
+        settings()
+    if mmnue == "m":
+        mainMenu()
+
 def showInfo():
     # shows information about the program, can be changed at very the very beginning of the script
     # debug mode can be enabled there
     print()
     con.print(Panel(f"\n   Information\n   -----------------------------------------------------\n   Name:          {pName}\n   Description:   {pDescription}\n   Author:        {pAuthor}\n   Source Code:   {pSource}\n   Version:       {pVersion}\n   Debug Mode:    {debugMode}\n"),style="bold green")
-    menuReq()
 
 def cleanScreen():
     for i in range(250):
@@ -383,7 +396,7 @@ def rerunWifi():
 def wifiError():
     # throws error if the command to get available networks outputs nothing 
     #(wifi disabled or command not working)
-    print("\nError: Code could not be executed, because WLAN is disabled.\nPlease enable Wifi connections, so this code can be execuded.")
+    print("\nError: Code could not be executed, because wifi is disabled.\nPlease enable wifi, so this code can be execuded.")
     menuReq()
     
 def repselfnetpwd():
@@ -407,6 +420,22 @@ def menuReq():
         mainMenu()
     if mmnue == "n":
         exitProgram()
+
+def settings():
+    con.print(Panel("\n   Settings\n   ----------------\n   1. Info\n   2. Debug Mode\n   3. Back to Main Menu\n"),style="bold green")
+    setansw = Prompt.ask("What do you pick? ",choices=['1','2','3'])
+    if setansw == '1':
+        showInfo()
+        setReq()
+    if setansw == '2':
+        if not debugMode:
+            ddbgr = "Off"
+        if debugMode:
+            ddbgr = "On"
+        con.print(Panel(f"\n   Debug Mode: {ddbgr}\n   (only changeable in the script)\n"),style="bold green")
+    if setansw == '3':
+        mainMenu()
+    setReq()
 
 def exitProgram():
     # explains itself
