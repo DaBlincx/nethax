@@ -1,4 +1,4 @@
-# nethax
+# NETHAX
 
 This script can be used to trick people into thinking, that you are a hacker.
 
@@ -18,5 +18,6 @@ if you plan on adding these files to your own git repository, please add "pw_dum
 
 
 
+# License
 
 Licensed under the GNU General Public License v3.0
