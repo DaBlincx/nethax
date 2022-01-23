@@ -313,11 +313,7 @@ def WiFi():
 
 def showInfo():
     print()
-    if debugMode == True:
-        debugger = "On"
-    else:
-        debugger = "Off"
-    con.print(Panel(f"\n   Information\n   -----------------------------------------------------\n   Name:          {pName}\n   Description:   {pDescription}\n   Author:        {pAuthor}\n   Source Code:   {pSource}\n   Version:       {pVersion}\n   Debug Mode:    {debugger}\n"),style="bold green")
+    con.print(Panel(f"\n   Information\n   -----------------------------------------------------\n   Name:          {pName}\n   Description:   {pDescription}\n   Author:        {pAuthor}\n   Source Code:   {pSource}\n   Version:       {pVersion}\n   Debug Mode:    {debugMode}\n"),style="bold green")
     menuReq()
 
 def rerunWifi():
