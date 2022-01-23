@@ -9,6 +9,8 @@
 # 
 # Have fun :)
 
+
+# script information
 pName = "netHax"
 pDescription = "Nethacking Toolbox"
 pAuthor = "DaBlincx"
