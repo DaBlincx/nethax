@@ -1,6 +1,6 @@
 pName = "netHax"
 pDescription = "Nethacking Toolbox"
-version = 1.2
+version = 1.3
 
 moduleslib = []
 
@@ -161,6 +161,8 @@ def getWifis():
     if platform == "linux" or platform == "linux2":
         # linux
         print("linux")
+        con.print(Panel("\nWiFi Hacking is currently not supported on linux.\nPlease try again on another version.\n"),style="bold green")
+        menuReq()
     elif platform == "darwin":
         # OS X
         print("macos")
@@ -169,8 +171,10 @@ def getWifis():
     elif platform == "win32":
         # Windows...
         print("windows")
-        scan_cmd = subprocess.Popen(['netsh', 'wlan', 'show', 'profiles'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        scan_out, scan_err = scan_cmd.communicate()
+        con.print(Panel("\nWiFi Hacking is currently not supported on Windows.\nPlease try again on another version.\n"),style="bold green")
+        #scan_cmd = subprocess.Popen(['netsh', 'wlan', 'show', 'profiles'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        #scan_out, scan_err = scan_cmd.communicate()
+        menuReq()
 
 
     
