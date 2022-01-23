@@ -34,6 +34,9 @@ except: moduleslib.append("random")
 try: import string
 except: moduleslib.append("string")
 
+try: from sys import *
+except: moduleslib.append("sys")
+
     
 def importError():
     print("Cannot import all needed librarys, \nplease make sure to have every one installed.\n\nUsage: 'pip install [module]' or 'pip3 install [module]'\n")
@@ -155,8 +158,22 @@ def MITM():
     menuReq()
 
 def getWifis():
-    scan_cmd = subprocess.Popen(['/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport', '-s'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    scan_out, scan_err = scan_cmd.communicate()
+    if platform == "linux" or platform == "linux2":
+        # linux
+        print("linux")
+    elif platform == "darwin":
+        # OS X
+        print("macos")
+        scan_cmd = subprocess.Popen(['/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport', '-s'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        scan_out, scan_err = scan_cmd.communicate()
+    elif platform == "win32":
+        # Windows...
+        print("windows")
+        scan_cmd = subprocess.Popen(['netsh', 'wlan', 'show', 'profiles'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        scan_out, scan_err = scan_cmd.communicate()
+
+
+    
 
     if str(scan_err) == "b''":
         errnoo = True
