@@ -143,7 +143,6 @@ def web_hacking():
         con.print(f"\n\nDumping: \n{l}",style="green")
         f.write(str(l)+"\n")
     f.close
-    
     menuReq()
 
 def phishingAttack():
@@ -189,7 +188,6 @@ def MITM():
     menuReq()
 
 def getWifis():
-
     newplatform = platform
 
     # option to change current platform in debug mode 
@@ -331,8 +329,6 @@ def WiFi():
             if wfend == True and netpwd != "nopasswordfound_______free":
                 cleanScreen()
                 print("Success!\n")
-
-        
 
             if netpwd == "nopasswordfound_______free":
                 # adds some "credibillity" if there are things that dont work
