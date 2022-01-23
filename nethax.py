@@ -213,10 +213,10 @@ def getWifis():
             else:
                 split_line = split_line[0]
             scan_out_data.append(split_line)
-        f = open("wifidump.txt","w",encoding="UTF-8")
-        for wifi in scan_out_lines:
-            f.write(wifi+"\n")
-        f.close
+        #f = open("wifidump.txt","w",encoding="UTF-8")
+        #for wifi in scan_out_lines:
+        #    f.write(wifi+"\n")
+        #f.close
         return scan_out_data
 
 def WiFi():
@@ -231,12 +231,15 @@ def WiFi():
     if scdata != None:
         for i in range(250):
             print()
+        f = open("wifi_dump.txt","w",encoding="UTF-8")
         for network in scdata:
             n+=1
             ntwrk = network[:-3]
             netwrk = ntwrk.rsplit(" ",2)
             netdisplay = "SSID: " + netwrk[0] + (" "*(36-len(netwrk[0]))) + " | MAC-Address: " + netwrk[1]
             con.print(Panel(f"{n}. {netdisplay}"),style="bold green")
+            f.write(f"{n}. {netdisplay}")
+        f.close
         chsc = []
         for i in range(1,n+1):
             chsc.append(str(i))
