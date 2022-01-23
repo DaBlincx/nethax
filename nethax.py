@@ -1,6 +1,11 @@
 pName = "netHax"
 pDescription = "Nethacking Toolbox"
-version = 1.3
+pAuthor = "DaBlincx"
+pSource = "https://www.github.com/DaBlincx/nethax"
+pVersion = 1.3
+debugMode = False
+
+
 
 moduleslib = []
 
@@ -73,9 +78,9 @@ def mainMenu():
     con.print(banner+":"*75+"\n",style="bold green")
     con.print(Panel(f"\n{pDescription}\n",style="bold green"))
     print()
-    con.print(Panel("1. Web App Hacking\n\n2. Phishing Attack\n\n3. MITM Attack\n\n4. WIFI Hacking\n\n5. Exit Program"),style="bold green")
+    con.print(Panel("1. Web App Hacking\n\n2. Phishing Attack\n\n3. MITM Attack\n\n4. WIFI Hacking\n\n5. Info\n\n6. Exit Program"),style="bold green")
 
-    answer = IntPrompt.ask("Which one do you pick? ",choices=['1','2','3','4','5'])
+    answer = IntPrompt.ask("Which one do you pick? ",choices=['1','2','3','4','5','6'])
     if answer == 1:
         web_hacking()
     if answer == 2:
@@ -85,6 +90,8 @@ def mainMenu():
     if answer == 4:
         WiFi()
     if answer == 5:
+        showInfo()
+    if answer == 6:
         exitProgram()
 
 def web_hacking():
@@ -158,17 +165,25 @@ def MITM():
     menuReq()
 
 def getWifis():
-    if platform == "linux" or platform == "linux2":
+
+    newplatform = platform
+
+    if debugMode == True:
+        print("Your current plattform is " + platform + "\nChange it? ")
+        newplatform = Prompt.ask("Linux / MacOS / Windows\nlinux / darwin / win32",choices=['linux','darwin','win32'])
+
+
+    if newplatform == "linux" or newplatform == "linux2":
         # linux
         print("linux")
         con.print(Panel("\nWiFi Hacking is currently not supported on linux.\nPlease try again on another version.\n"),style="bold green")
         menuReq()
-    elif platform == "darwin":
+    elif newplatform == "darwin":
         # OS X
         print("macos")
         scan_cmd = subprocess.Popen(['/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport', '-s'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         scan_out, scan_err = scan_cmd.communicate()
-    elif platform == "win32":
+    elif newplatform == "win32":
         # Windows...
         print("windows")
         con.print(Panel("\nWiFi Hacking is currently not supported on Windows.\nPlease try again on another version.\n"),style="bold green")
@@ -296,6 +311,15 @@ def WiFi():
     else:
         wifiError()
 
+def showInfo():
+    print()
+    if debugMode == True:
+        debugger = "On"
+    else:
+        debugger = "Off"
+    con.print(Panel(f"\n   Information\n   -----------------------------------------------------\n   Name:          {pName}\n   Description:   {pDescription}\n   Author:        {pAuthor}\n   Source Code:   {pSource}\n   Version:       {pVersion}\n   Debug Mode:    {debugger}\n"),style="bold green")
+    menuReq()
+
 def rerunWifi():
     WiFi()
 
@@ -304,7 +328,7 @@ def wifiError():
     menuReq()
 
 def menuReq():
-    print("\n")
+    print()
     mmnue = Prompt.ask("Back to main menu? ",choices=['y','n'])
     if mmnue == "y":
         mainMenu()
@@ -314,5 +338,7 @@ def menuReq():
 def exitProgram():
     con.print(Panel("\n  Thanks for using!\n"),style="bold green")
     exit()
+
+
 
 mainMenu()
