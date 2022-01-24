@@ -11,7 +11,7 @@
 
 
 # script information
-pName = "NetHax"
+pName = "NetHax Tools"
 pDescription = "Nethacking Toolbox"
 pAuthor = "DaBlincx"
 pSource = "https://www.github.com/DaBlincx/nethax"
@@ -86,13 +86,11 @@ def initializer(lenght,debugMode):
         time.sleep(0.1)
 
 def mainMenu(debugMode):
-    for i in range(250):
-        print()
+    cleanScreen(debugMode)
     # trying to create banner using pyfiglet
-    try: banner = pyfiglet.figlet_format(f"  {pName}  ",font="sansb")
+    try: banner = pyfiglet.figlet_format(f"    {pName}",font="doom")
     except: importError(debugMode)
-    con.print(":"*75,style="bold green")
-    con.print(banner+":"*75+"\n",style="bold green")
+    con.print(banner,style="bold green")
     # printing description
     con.print(Panel(f"\n   {pDescription}\n",style="bold green"))
     print()
@@ -380,6 +378,7 @@ def setReq(debugMode):
         mainMenu(debugMode)
 
 def showInfo(debugMode):
+    cleanScreen(debugMode)
     # shows information about the program, can be changed at very the very beginning of the script
     # debug mode can be enabled there
     print()
@@ -394,6 +393,7 @@ def rerunWifi(debugMode):
     WiFi(debugMode)
 
 def wifiError(debugMode):
+    cleanScreen(debugMode)
     # throws error if the command to get available networks outputs nothing 
     #(wifi disabled or command not working)
     print("\nError: Code could not be executed, because wifi is disabled.\nPlease enable wifi, so this code can be execuded.")
@@ -422,12 +422,14 @@ def menuReq(debugMode):
         exitProgram(debugMode)
 
 def settings(debugMode):
+    cleanScreen(debugMode)
     con.print(Panel("\n   Settings\n   ----------------\n   1. Info\n   2. Debug Mode\n   3. Back to Main Menu\n"),style="bold green")
     setansw = Prompt.ask("What do you pick? ",choices=['1','2','3'])
     if setansw == '1':
         showInfo(debugMode)
         setReq(debugMode)
     if setansw == '2':
+        cleanScreen(debugMode)
         if not debugMode:
             ddbgr = "Off"
         if debugMode:
