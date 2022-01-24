@@ -16,12 +16,11 @@ pDescription = "Nethacking Toolbox"
 pAuthor = "DaBlincx"
 pSource = "https://www.github.com/DaBlincx/nethax"
 pVersion = 1.4
-debugMode = True
+debugMode = False
 
 
 
 moduleslib = []
-
 
 # trying to import modules 
 # adds string to moduleslib if module cannot be imported
@@ -60,8 +59,9 @@ except: moduleslib.append("string")
 
 try: from sys import *
 except: moduleslib.append("sys")
-    
-def importError():
+
+
+def importError(debugMode):
     # printing needed librarys if anything fails to be imported 
     # ends script to prevent other errors
     print("Cannot import all needed librarys, \nplease make sure to have every one installed.\n\nUsage: 'pip install [module]' or 'pip3 install [module]'\n")
@@ -73,24 +73,24 @@ def importError():
 
 # trying to set con as Console() but if rich.console is not imported it will throw an error
 try: con = Console()
-except: importError()
+except: importError(debugMode)
 
 if bool(moduleslib) != False:
     # if modules lib is not empty, throw error
-    importError()
+    importError(debugMode)
 
 
-def initializer(lenght):
+def initializer(lenght,debugMode):
     # "initializer" for all the tools
     for x in track(range(lenght),"Initializing..."):
         time.sleep(0.1)
 
-def mainMenu():
+def mainMenu(debugMode):
     for i in range(250):
         print()
     # trying to create banner using pyfiglet
     try: banner = pyfiglet.figlet_format(f"  {pName}  ",font="sansb")
-    except: importError()
+    except: importError(debugMode)
     con.print(":"*75,style="bold green")
     con.print(banner+":"*75+"\n",style="bold green")
     # printing description
@@ -103,20 +103,20 @@ def mainMenu():
 
     # execute selected tool
     if answer == 1:
-        web_hacking()
+        web_hacking(debugMode)
     if answer == 2:
-        phishingAttack()
+        phishingAttack(debugMode)
     if answer == 3:
-        MITM()
+        MITM(debugMode)
     if answer == 4:
-        WiFi()
+        WiFi(debugMode)
     if answer == 5:
-        settings()
+        settings(debugMode)
     if answer == 6:
-        exitProgram()
+        exitProgram(debugMode)
 
-def web_hacking():
-    initializer(25)
+def web_hacking(debugMode):
+    initializer(25,debugMode)
     # sets starting point for walk command
     ltf = "./webkey"
     ltfget = []
@@ -143,10 +143,10 @@ def web_hacking():
         con.print(f"\n\nDumping: \n{l}",style="green")
         f.write(str(l)+"\n")
     f.close
-    menuReq()
+    menuReq(debugMode)
 
-def phishingAttack():
-    initializer(25)
+def phishingAttack(debugMode):
+    initializer(25,debugMode)
     # option for fake phishing attack
     con.print(Panel("1. SMS-Phishing"),style="bold green")
     # email phishing does not exist
@@ -175,19 +175,19 @@ def phishingAttack():
 
     if phishMethod == 2:
         # error for email phishing
-        featureDoesntExist()
+        featureDoesntExist(debugMode)
 
-    menuReq()
+    menuReq(debugMode)
 
-def MITM():
-    initializer(25)
+def MITM(debugMode):
+    initializer(25,debugMode)
 
     # this feature does not exist
-    featureDoesntExist()
+    featureDoesntExist(debugMode)
 
-    menuReq()
+    menuReq(debugMode)
 
-def getWifis():
+def getWifis(debugMode):
     newplatform = platform
 
     # option to change current platform in debug mode 
@@ -196,26 +196,6 @@ def getWifis():
         print("Your current plattform is " + platform + "\nChange it? ")
         newplatform = Prompt.ask("Linux / MacOS / Windows\nlinux / darwin / win32",choices=['linux','darwin','win32'])
 
-    # gets your current platform and throws error if its currently not supported
-    if newplatform == "linux" or newplatform == "linux2":
-        if debugMode:
-            print("Current platform: linux")
-        # error
-        con.print(Panel("\nWiFi Hacking is currently not supported on linux.\nPlease try again on another version.\n"),style="bold green")
-        menuReq()
-    elif newplatform == "darwin":
-        if debugMode:
-            print("Current platform: macos")
-        # runs terminal command to get available wifi networks on macos
-        scan_cmd = subprocess.Popen(['/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport', '-s'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        scan_out, scan_err = scan_cmd.communicate()
-    elif newplatform == "win32":
-        if debugMode:
-            print("Current platform: windows")
-        # error
-        con.print(Panel("\nWiFi Hacking is currently not supported on Windows.\nPlease try again on another version.\n"),style="bold green")
-        menuReq()
-
     # prompt to create wifi error if debug mode is enabled
     if debugMode:
         create_wifierror = Prompt.ask("Create intentional WiFi error?",choices=['y','n'])
@@ -223,6 +203,26 @@ def getWifis():
             scan_out, scan_err = "b''"
         if create_wifierror == 'n':
             pass
+
+    # gets your current platform and throws error if its currently not supported
+    if newplatform == "linux" or newplatform == "linux2":
+        if debugMode:
+            print("Current platform: linux/linux2")
+        # error
+        con.print(Panel("\nWiFi Hacking is currently not supported on linux.\nPlease try again on another version.\n"),style="bold green")
+        menuReq(debugMode)
+    elif newplatform == "darwin":
+        if debugMode:
+            print("Current platform: macos/darwin")
+        # runs terminal command to get available wifi networks on macos
+        scan_cmd = subprocess.Popen(['/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport', '-s'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        scan_out, scan_err = scan_cmd.communicate()
+    elif newplatform == "win32":
+        if debugMode:
+            print("Current platform: windows/win32")
+        # error
+        con.print(Panel("\nWiFi Hacking is currently not supported on Windows.\nPlease try again on another version.\n"),style="bold green")
+        menuReq(debugMode)
 
     if str(scan_err) == "b''":
         errnoo = True
@@ -263,19 +263,19 @@ def getWifis():
             f.close
         return scan_out_data
 
-def WiFi():
-    initializer(25)
+def WiFi(debugMode):
+    initializer(25,debugMode)
 
     # trying to get networks, if it fails, it throws wifi error
     try: 
-        scdata = getWifis()
+        scdata = getWifis(debugMode)
     except: 
-        wifiError()
+        wifiError(debugMode)
     if debugMode:
         print(scdata)
     n=0
     if scdata != None:
-        cleanScreen()
+        cleanScreen(debugMode)
         # displaying all fetched networks
         for network in scdata:
             n+=1
@@ -293,7 +293,7 @@ def WiFi():
         netwrkf = ntwrkf.rsplit(" ",2)
         netssid = netwrkf[0]
         netmac = netwrkf[1]
-        cleanScreen()
+        cleanScreen(debugMode)
         for i in track(range(100),f"Gathering information from {netssid}"):
             time.sleep(0.1)
         # select your preferred fake hacking thingy
@@ -303,7 +303,7 @@ def WiFi():
         crackmethod = IntPrompt.ask("Select cracking method: ",choices=['1','2','3'])
 
         print("\n")
-        initializer(10)
+        initializer(10,debugMode)
         print("\n\n")
 
         S = random.randint(8,32)
@@ -332,16 +332,16 @@ def WiFi():
                     wfend = True
                     break
             if wfend == True and netpwd != "nopasswordfound_______free":
-                cleanScreen()
+                cleanScreen(debugMode)
                 print("Success!\n")
 
             if netpwd == "nopasswordfound_______free":
                 # adds some "credibillity" if there are things that dont work
                 retri = Prompt.ask("Password could not be found, retry? ",choices=['y','n'])
                 if retri == "y":
-                    rerunWifi()
+                    rerunWifi(debugMode)
                 if retri == "n":
-                    menuReq()
+                    menuReq(debugMode)
 
         if crackmethod == 2:
             # "bruteforcing" but its just generating another password
@@ -366,40 +366,40 @@ def WiFi():
         # panel with network information and fake password
         con.print(Panel(f"\n  SSID: {netssid}\n\n  MAC-Address: {netmac}\n\n  Passphrase: {netpwd}\n"),style="bold green")
         
-        menuReq()
+        menuReq(debugMode)
     else:
-        wifiError()
+        wifiError(debugMode)
 
-def setReq():
+def setReq(debugMode):
     # back to main menu or not
     print()
     mmnue = Prompt.ask("Back to settings (s) or main menu (m)",choices=['s','m'])
     if mmnue == "s":
-        settings()
+        settings(debugMode)
     if mmnue == "m":
-        mainMenu()
+        mainMenu(debugMode)
 
-def showInfo():
+def showInfo(debugMode):
     # shows information about the program, can be changed at very the very beginning of the script
     # debug mode can be enabled there
     print()
     con.print(Panel(f"\n   Information\n   -----------------------------------------------------\n   Name:          {pName}\n   Description:   {pDescription}\n   Author:        {pAuthor}\n   Source Code:   {pSource}\n   Version:       {pVersion}\n   Debug Mode:    {debugMode}\n"),style="bold green")
 
-def cleanScreen():
+def cleanScreen(debugMode):
     for i in range(250):
         print()
 
-def rerunWifi():
+def rerunWifi(debugMode):
     # WiFi() cant run itself so yeah
-    WiFi()
+    WiFi(debugMode)
 
-def wifiError():
+def wifiError(debugMode):
     # throws error if the command to get available networks outputs nothing 
     #(wifi disabled or command not working)
     print("\nError: Code could not be executed, because wifi is disabled.\nPlease enable wifi, so this code can be execuded.")
-    menuReq()
+    menuReq(debugMode)
     
-def repselfnetpwd():
+def repselfnetpwd(debugMode):
     corr = False
     fnetpwd = Prompt.ask("Please enter a working password from the password list in lists.py")
     for pwlt in pwlist:
@@ -408,42 +408,52 @@ def repselfnetpwd():
         if corr == True:
             break
     if corr == False:
-        fnetpwd = repselfnetpwd()
+        fnetpwd = repselfnetpwd(debugMode)
     if corr == True:
         return fnetpwd
 
-def menuReq():
+def menuReq(debugMode):
     # back to main menu or not
     print()
     mmnue = Prompt.ask("Back to main menu? ",choices=['y','n'])
     if mmnue == "y":
-        mainMenu()
+        mainMenu(debugMode)
     if mmnue == "n":
-        exitProgram()
+        exitProgram(debugMode)
 
-def settings():
+def settings(debugMode):
     con.print(Panel("\n   Settings\n   ----------------\n   1. Info\n   2. Debug Mode\n   3. Back to Main Menu\n"),style="bold green")
     setansw = Prompt.ask("What do you pick? ",choices=['1','2','3'])
     if setansw == '1':
-        showInfo()
-        setReq()
+        showInfo(debugMode)
+        setReq(debugMode)
     if setansw == '2':
         if not debugMode:
             ddbgr = "Off"
         if debugMode:
             ddbgr = "On"
-        con.print(Panel(f"\n   Debug Mode: {ddbgr}\n   (only changeable in the script)\n"),style="bold green")
+        con.print(Panel(f"\n   Debug Mode: {ddbgr}\n"),style="bold green")
+        print()
+        chgDebug = Prompt.ask("Change debug mode?",choices=['n','on','off'])
+        if chgDebug == 'n':
+            pass
+        if chgDebug == 'on':
+            debugMode = True
+            print("\nDebug Mode: On\n")
+        if chgDebug == 'off':
+            debugMode = False
+            print("\nDebug Mode: Off\n")
     if setansw == '3':
-        mainMenu()
-    setReq()
+        mainMenu(debugMode)
+    setReq(debugMode)
 
-def exitProgram():
+def exitProgram(debugMode):
     # explains itself
     con.print(Panel("\n  Thanks for using!\n"),style="bold green")
     exit()
 
-def featureDoesntExist():
+def featureDoesntExist(debugMode):
     # for features that dont exist currently, but will be implemented later on
     con.print(Panel(f"\nCurrently, this feature does not exist.\nPlease try again later.\n"),style="bold green")
 
-mainMenu()
+mainMenu(debugMode)
