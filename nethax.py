@@ -10,12 +10,9 @@
 # Have fun :)
 
 
-
-
 moduleslib = []
 
-# trying to import modules 
-# adds string to moduleslib if module cannot be imported
+# trying to import modules and adds string to moduleslib if module cannot be imported
 try: from config import *
 except: moduleslib.append("please download config.py from the git repo\nand save it in the same folder as this python script\n")
 try: from lists import *
@@ -54,6 +51,8 @@ except: moduleslib.append("string")
 try: from sys import *
 except: moduleslib.append("sys")
 
+#   actual script begins here 
+#    \/     \/     \/     \/
 
 def importError(debugMode):
     # printing needed librarys if anything fails to be imported 
@@ -299,7 +298,6 @@ def WiFi(debugMode):
         con.print(Panel(f"2. Bruteforcing method"),style="bold green")
         con.print(Panel(f"3. HTTP-Cracking"),style="bold green")
         crackmethod = IntPrompt.ask("Select cracking method: ",choices=['1','2','3'])
-
         print("\n")
         initializer(10,debugMode)
         print("\n\n")
@@ -489,5 +487,4 @@ def debugOptions(debugMode):
         if not debugMode:
             pass
     
-
 mainMenu(debugMode)
