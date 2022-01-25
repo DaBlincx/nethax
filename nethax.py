@@ -294,7 +294,7 @@ def WiFi(debugMode):
         for i in track(range(100),f"Gathering information from {netssid}"):
             time.sleep(0.1)
         # select your preferred fake hacking thingy
-        con.print(Panel(f"1. 4800 pwlist.txt - wordlist"),style="bold green")
+        con.print(Panel(f"1. {len(pwlist)} pwlist.txt - wordlist"),style="bold green")
         con.print(Panel(f"2. Bruteforcing method"),style="bold green")
         con.print(Panel(f"3. HTTP-Cracking"),style="bold green")
         crackmethod = IntPrompt.ask("Select cracking method: ",choices=['1','2','3'])

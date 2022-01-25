@@ -1,3 +1,5 @@
+# feel free to add more passwords to this list :)
+
 pwlist = [
     "000000000",
     "0000000000",
