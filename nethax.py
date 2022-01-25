@@ -345,7 +345,8 @@ def WiFi(debugMode):
             for i in track(range(1,timedr),f"Bruteforcing..."):
                 time.sleep(0.1)
                 netpwd = ''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase, k = S))
-
+                print(netpwd)
+                
         if crackmethod == 3:
             # "http-cracking" - not really, idk how this works lmao
             for i in track(range(100),f"Sending http requests..."):
