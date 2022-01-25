@@ -96,8 +96,11 @@ def mainMenu(debugMode):
     print()
     # select what tool you want to use
     con.print(Panel("\n   1. Web App Hacking\n   2. Phishing Attack\n   3. MITM Attack\n   4. WIFI Hacking\n   5. Settings\n   6. Exit Program\n"),style="bold green")
-
-    answer = IntPrompt.ask("Which one do you pick? ",choices=['1','2','3','4','5','6'])
+    if not debugMode:
+        kchg = ['1','2','3','4','5','6']
+    if debugMode:
+        kchg = ['1','2','3','4','5','6','7']
+    answer = IntPrompt.ask("Which one do you pick? ",choices=kchg)
 
     # execute selected tool
     if answer == 1:
@@ -112,6 +115,9 @@ def mainMenu(debugMode):
         settings(debugMode)
     if answer == 6:
         exitProgram(debugMode)
+    if debugMode:
+        if answer == 7:
+            debugOptions(debugMode)
 
 def web_hacking(debugMode):
     initializer(25,debugMode)
@@ -423,28 +429,15 @@ def menuReq(debugMode):
 
 def settings(debugMode):
     cleanScreen(debugMode)
-    con.print(Panel("\n   Settings\n   ----------------\n   1. Info\n   2. Debug Mode\n   3. Back to Main Menu\n"),style="bold green")
+    con.print(Panel("\n   Settings\n   ----------------\n   1. Info\n   2. Debug Options\n   3. Back to Main Menu\n"),style="bold green")
     setansw = Prompt.ask("What do you pick? ",choices=['1','2','3'])
     if setansw == '1':
         showInfo(debugMode)
         setReq(debugMode)
     if setansw == '2':
         cleanScreen(debugMode)
-        if not debugMode:
-            ddbgr = "Off"
-        if debugMode:
-            ddbgr = "On"
-        con.print(Panel(f"\n   Debug Mode: {ddbgr}\n"),style="bold green")
-        print()
-        chgDebug = Prompt.ask("Change debug mode?",choices=['n','on','off'])
-        if chgDebug == 'n':
-            pass
-        if chgDebug == 'on':
-            debugMode = True
-            print("\nDebug Mode: On\n")
-        if chgDebug == 'off':
-            debugMode = False
-            print("\nDebug Mode: Off\n")
+        debugOptions(debugMode)
+        
     if setansw == '3':
         mainMenu(debugMode)
     setReq(debugMode)
@@ -457,5 +450,48 @@ def exitProgram(debugMode):
 def featureDoesntExist(debugMode):
     # for features that dont exist currently, but will be implemented later on
     con.print(Panel(f"\nCurrently, this feature does not exist.\nPlease try again later.\n"),style="bold green")
+
+def debugOptions(debugMode):
+    ldbchg = []
+    if debugMode:
+        ldb = 3
+        moreDebug = f"\n   2. Back to main menu"
+        for x in range(1,ldb):
+            ldbchg.append(str(x))
+    if not debugMode:
+        moreDebug = ""
+        ldb = 2
+        for x in range(1,ldb):
+            ldbchg.append(str(x))
+    con.print(Panel(f"\n   Debug Options\n   ---------------------------\n   1. Change Debug Mode{moreDebug}\n   {str(ldb)}. Back to settings\n"),style="bold green")
+    debugAws = IntPrompt.ask("What do you pick? ",choices=ldbchg)
+    if debugAws == 1:
+        if not debugMode:
+            ddbgr = "Off"
+        if debugMode:
+            ddbgr = "On"
+        con.print(Panel(f"\n   Debug Mode: {ddbgr}\n"),style="bold green")
+        print()
+        chgDebug = Prompt.ask("Change debug mode?",choices=['n','on','off'])
+        if chgDebug == 'n':
+            pass
+        if chgDebug == 'on':
+            debugMode = True
+            print("\nDebug Mode: On")
+        if chgDebug == 'off':
+            debugMode = False
+            print("\nDebug Mode: Off")
+        debugOptions(debugMode)
+    if debugAws == 2:
+        if debugMode:
+            mainMenu(debugMode)
+        if not debugMode:
+            settings(debugMode)
+    if debugAws == 3:
+        if debugMode:
+            settings(debugMode)
+        if not debugMode:
+            pass
+    
 
 mainMenu(debugMode)
