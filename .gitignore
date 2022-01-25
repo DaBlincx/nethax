@@ -1,8 +1,9 @@
 
-zz__testfiles
+# testfiles, dont worry
 zz_fonts.txt
 zz_test.py
 
+# created during process 
 .DS_Store
 pw_dump.txt
 wifi_dump.txt
