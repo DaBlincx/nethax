@@ -16,7 +16,7 @@ pDescription = "Nethacking Toolbox"
 pAuthor = "DaBlincx"
 pSource = "https://www.github.com/DaBlincx/nethax"
 pVersion = 1.4
-debugMode = False
+debugMode = True
 
 
 
@@ -452,19 +452,21 @@ def featureDoesntExist(debugMode):
     con.print(Panel(f"\nCurrently, this feature does not exist.\nPlease try again later.\n"),style="bold green")
 
 def debugOptions(debugMode):
+    cleanScreen(debugMode)
     ldbchg = []
     if debugMode:
         ldb = 3
         moreDebug = f"\n   2. Back to main menu"
-        for x in range(1,ldb):
+        for x in range(1,ldb+1):
             ldbchg.append(str(x))
     if not debugMode:
         moreDebug = ""
         ldb = 2
-        for x in range(1,ldb):
+        for x in range(1,ldb+1):
             ldbchg.append(str(x))
     con.print(Panel(f"\n   Debug Options\n   ---------------------------\n   1. Change Debug Mode{moreDebug}\n   {str(ldb)}. Back to settings\n"),style="bold green")
     debugAws = IntPrompt.ask("What do you pick? ",choices=ldbchg)
+    cleanScreen(debugMode)
     if debugAws == 1:
         if not debugMode:
             ddbgr = "Off"
