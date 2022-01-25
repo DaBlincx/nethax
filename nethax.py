@@ -10,22 +10,16 @@
 # Have fun :)
 
 
-# script information
-pName = "NetHax Tools"
-pDescription = "Nethacking Toolbox"
-pAuthor = "DaBlincx"
-pSource = "https://www.github.com/DaBlincx/nethax"
-pVersion = 1.4
-debugMode = True
-
 
 
 moduleslib = []
 
 # trying to import modules 
 # adds string to moduleslib if module cannot be imported
+try: from config import *
+except: moduleslib.append("please download config.py from the git repo\nand save it in the same folder as this python script\n")
 try: from lists import *
-except: moduleslib.append("please download lists.py from the github repo \nand save it in the same folder as this python script\n")
+except: moduleslib.append("please download lists.py from the git repo \nand save it in the same folder as this python script\n")
 
 try: import pyfiglet
 except: moduleslib.append("pyfiglet")
