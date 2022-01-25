@@ -1,11 +1,10 @@
 
+zz__testfiles
+zz_fonts.txt
+zz_test.py
+
 .DS_Store
 pw_dump.txt
 wifi_dump.txt
 __pycache__/lists.cpython-39.pyc
-
-
-
-zz__testfiles
-zz_fonts.txt
-zz_test.py
+__pycache__/config.cpython-39.pyc
