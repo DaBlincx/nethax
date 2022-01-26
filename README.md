@@ -1,10 +1,12 @@
-# NETHAX
+# NetHax
 
 This script can be used to trick people into thinking, that you are a hacker.
 
 This is not a real hacking tool and should not be interpreted as one.
 
 Have fun :)
+
+If you are searching for movie friendly hacking program, take a look at https://www.github.com/DaBlincx/hollywood-hacking
 
 
 
