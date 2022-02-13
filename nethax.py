@@ -136,10 +136,13 @@ def web_hacking(debugMode):
 
     # dumping filepaths to pw_dump.txt
     f = open("pw_dump.txt","w",encoding="UTF-8")
+    pwdmpp = 0
     for l in ltfget:
+        pwdmpp += 1
         con.print(f"\n\nDumping: \n{l}",style="green")
         f.write(str(l)+"\n")
     f.close
+    con.print(Panel(f"\n   Dumped {pwdmpp} passwords to pw_dump.txt\n",style="bold green"))
     menuReq(debugMode)
 
 def phishingAttack(debugMode):
